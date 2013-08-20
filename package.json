@@ -1,6 +1,6 @@
 {
   "name": "bitstarter",
-  "version": "0.7",
+  "version": "0.0.1",
   "description": "Bitstater",
   "main": "web.js",
   "scripts": {
