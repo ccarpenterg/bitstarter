@@ -14,8 +14,17 @@ app.set('port', process.env.PORT || 5000);
 
 // Render homepage (note trailing slash): example.com/
 app.get('/', function(request, response) {
-  var data = fs.readFileSync('index.html').toString();
-  response.send(data);
+  global.db.Order.findAndCountAll().success(function(result) {
+    var amount = 0;
+    result.rows.forEach(function(order) {
+      amount += order.amount
+    });
+
+    response.render("home", {backers: result.count, amount: amount*100, days: 34});
+  }).error(function(err) {
+    console.log(err);
+    response.send("error serving home page");
+  });
 });
 
 // Render example.com/orders
