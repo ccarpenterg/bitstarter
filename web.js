@@ -17,10 +17,13 @@ app.get('/', function(request, response) {
   global.db.Order.findAndCountAll().success(function(result) {
     var amount = 0;
     result.rows.forEach(function(order) {
-      amount += order.amount
+      amount += order.amount;
     });
 
-    response.render("home", {backers: result.count, amount: amount*100, days: 34});
+    var days_left = (new Date("September 8, 2013 23:59:59") - new Date()) / (1000*60*60*24);
+    amount = amount*118.82;
+
+    response.render("home", {backers: result.count, amount: amount.toFixed(2), days: Math.floor(days_left)});
   }).error(function(err) {
     console.log(err);
     response.send("error serving home page");
